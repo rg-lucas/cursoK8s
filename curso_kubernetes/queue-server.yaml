@@ -1,0 +1,87 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fleetman-queue-server
+
+spec:
+  ports:
+    - name: http
+      port: 8161
+      nodePort: 30081
+  #this defines the pods that will be used in this service
+  #the service becames a network endpoint for either other services or pods 
+  #or mayber external clients
+  selector:
+    app: minha-primeira-queue
+    release: "1"
+  type: NodePort
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+spec:
+  selector:
+    app: queue
+  ports:
+    - name: http
+      port: 8161
+      nodePort: 30010
+  
+    - name: endpoint
+      port: 61616
+
+  type: NodePort
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-webapp
+spec:
+  selector:
+    app: webapp
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+  
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+spec:
+  selector:
+    app: position-tracker
+  ports:
+    - name: http
+      port: 8080
+
+  type: ClusterIP
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-api-gateway
+spec:
+  selector:
+    app: api-gateway
+  ports:
+    - name: http
+      port: 8080
+
+  type: ClusterIP 
+  
+  

@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: fleetman-meu-primeiro-server
+
+spec:
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+  #this defines the pods that will be used in this service
+  #the service becames a network endpoint for either other services or pods 
+  #or mayber external clients
+  selector:
+    app: webapp
+  type: NodePort
+
